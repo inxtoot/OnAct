@@ -26,11 +26,12 @@ jobs:
           pip install pyinstaller
 
       - name: Build EXE with PyInstaller
-        run: pyinstaller -F -w --icon=001.ico main.py
+        run: |
+          pyinstaller -F -w -n "OnAct_${{ github.ref_name }}" --icon=001.ico main.py
 
       - name: Upload EXE to Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/main.exe
+          files: dist/OnAct_${{ github.ref_name }}.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
