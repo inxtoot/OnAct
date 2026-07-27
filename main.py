@@ -6,13 +6,24 @@ import threading
 import requests
 import webbrowser
 import tkinter.messagebox as msgbox
-import certifi
+import ssl
+import urllib3
 from tkinter import ttk
 
 from ui import RecorderUI
 
+# ==================== 彻底禁用 SSL 验证 ====================
+try:
+    # 禁用 requests 的 SSL 警告
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    # 全局禁用 SSL 证书验证（适用于所有 HTTPS 请求）
+    ssl._create_default_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+
+# ==================== 版本与镜像配置 ====================
 # 当前程序版本号（每次发布新版本时手动更新此处）
-VERSION = "v1.1.0"
+VERSION = "v1.1.8"
 
 # 可用的镜像下载地址（按优先级排列，包含应急网盘）
 MIRROR_URLS = [
@@ -23,11 +34,13 @@ MIRROR_URLS = [
     ("百度网盘（备用）", "https://pan.baidu.com/s/xxxx"),
 ]
 
+# ==================== 更新检查函数 ====================
 def check_update():
     """检查 GitHub 上的最新版本，如有更新则弹窗让用户选择镜像下载"""
     try:
         url = "https://api.github.com/repos/inxtoot/OnAct/releases/latest"
-        response = requests.get(url, timeout=5, verify=certifi.where())
+        # 使用 verify=False 跳过证书验证（与全局禁用一致）
+        response = requests.get(url, timeout=5, verify=False)
         if response.status_code == 200:
             data = response.json()
             latest_version = data.get("tag_name", "")
@@ -38,7 +51,7 @@ def check_update():
         print(f"检查更新失败: {e}")
 
 def show_update_dialog(latest_version):
-    """显示更新提示和镜像选择窗口（已移除用户交流群按钮）"""
+    """显示更新提示和镜像选择窗口"""
     win = tk.Toplevel()
     win.title("发现新版本")
     win.geometry("450x250")
@@ -72,6 +85,7 @@ def open_download(url, window):
     webbrowser.open(url)
     window.destroy()
 
+# ==================== 启动程序 ====================
 if __name__ == "__main__":
     root = tk.Tk()
     threading.Thread(target=check_update, daemon=True).start()
