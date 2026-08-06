@@ -18,7 +18,7 @@ except AttributeError:
     pass
 
 # ==================== 版本与镜像配置 ====================
-VERSION = "v1.1.7"   # 当前程序版本号（每次发版手动更新）
+VERSION = "v1.1.9"   # 当前程序版本号（每次发版手动更新）
 
 # 可用的镜像下载地址（按优先级排列，包含应急网盘）
 MIRROR_URLS = [
@@ -76,7 +76,8 @@ def show_update_dialog(latest_version):
     row2.pack()
 
     for i, (name, url_template) in enumerate(MIRROR_URLS):
-        if url_template == "https://pan.baidu.com/s/xxxx":
+        # 判断是否为百度网盘链接（包含 pan.baidu.com）
+        if "pan.baidu.com" in url_template:
             download_url = url_template
         else:
             download_url = url_template.format(latest_version)
