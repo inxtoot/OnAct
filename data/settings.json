@@ -1,0 +1,6 @@
+{
+  "sample_enabled": false,
+  "sample_interval": 10,
+  "precision_mode": false,
+  "max_log_size_kb": 1024
+}
