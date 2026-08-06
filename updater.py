@@ -26,7 +26,7 @@ MIRROR_URLS = [
     ("ghproxy.com", "https://ghproxy.com/https://github.com/inxtoot/OnAct/releases/download/{}/main.exe"),
     ("gitclone.com", "https://gitclone.com/inxtoot/OnAct/releases/download/{}/main.exe"),
     ("GitHub 官方", "https://github.com/inxtoot/OnAct/releases/download/{}/main.exe"),
-    ("百度网盘（备用）", "https://pan.baidu.com/s/xxxx"),
+    ("百度网盘（dy5j）", "https://pan.baidu.com/s/1Vz3COlIo3VBQHqngXhd7bQ?pwd=dy5j"),
 ]
 
 # ==================== 核心更新函数 ====================
